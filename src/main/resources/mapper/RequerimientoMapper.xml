@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lmar.gestion_req_api.repository.RequerimientoMapper">
+	
+	<resultMap id="reqResultMap" type="com.lmar.gestion_req_api.model.Requerimiento">
+		<result property="id" column="id"></result>
+		<result property="nombre" column="nombre"></result>
+		<result property="descripcion" column="descripcion"></result>
+		<result property="rutaAnexo" column="ruta_anexo"></result>
+	</resultMap>
+	
+	<select id="getAll" resultMap="reqResultMap" >
+		SELECT
+			id,
+		    nombre,
+		    descripcion,
+		    ruta_anexo,
+		    estado,
+		    id_solicitante,
+		    id_coordinador,
+		    id_analista
+		FROM requerimiento
+	</select>
+	
+	<select id="getById" resultMap="reqResultMap">
+		SELECT
+			id,
+		    nombre,
+		    descripcion,
+		    ruta_anexo,
+		    estado,
+		    id_solicitante,
+		    id_coordinador,
+		    id_analista
+		FROM requerimiento
+		WHERE id = #{id}
+	</select>
+	
+	<insert 
+		id="add" 
+		parameterType="com.lmar.gestion_req_api.model.Requerimiento" 
+		statementType="PREPARED"
+		useGeneratedKeys="true"
+		keyProperty="id"
+	>
+		INSERT INTO requerimiento (nombre, descripcion, ruta_anexo, estado)
+		VALUES ( #{nombre}, #{descripcion}, #{rutaAnexo}, #{estado})
+	</insert>
+	
+	<update 
+		id="update" 
+		parameterType="com.lmar.gestion_req_api.model.Requerimiento" 
+		statementType="PREPARED"
+	>
+		UPDATE requerimiento 
+		SET nombre = #{nombre}, descripcion = #{descripcion}, estado = #{estado}
+		WHERE id = #{id}
+	</update>
+
+	<delete id="delete" parameterType="int">
+    	DELETE FROM requerimiento WHERE id =#{id}
+    </delete>
+</mapper>
